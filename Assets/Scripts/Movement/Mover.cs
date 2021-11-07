@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+namespace RPG.Movement
+{
 public class Mover : MonoBehaviour
 {
     NavMeshAgent agent;
@@ -11,25 +12,18 @@ public class Mover : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         character = GetComponent<Animator>();
+        
     }
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            MoveToCursor();
-        }
         UpdateAnimator();
-    }
-    private void MoveToCursor()
+    } 
+
+    public void MoveTo(Vector3 destination) 
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        bool hashit = Physics.Raycast(ray, out hit);
-        if (hashit)
-        {
-            GetComponent<NavMeshAgent>().destination = hit.point;
-        }
+        GetComponent<NavMeshAgent>().destination = destination;
     }
+
     private void UpdateAnimator()
     {
         Vector3 velocity = agent.velocity;
@@ -38,4 +32,5 @@ public class Mover : MonoBehaviour
         character.SetFloat("ForwardSpeed", speed);
     }
     
+}
 }
